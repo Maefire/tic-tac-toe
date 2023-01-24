@@ -24,8 +24,8 @@ class Game
   def game_loop
     @current_player = @players.first
     loop do
-      print_board
       @current_player.place_token
+      print_board
       @current_player = @players.rotate!
       return if check_win || check_tie
     end
