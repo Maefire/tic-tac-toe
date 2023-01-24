@@ -7,12 +7,18 @@ class Game
     @players = [player_one.new(self, "X"), player_two.new(self, "O")]
   end
 
+  # Here, we assign no values, to compare later. #
   def print_board
-    puts "#{@board[1] = 1} | #{@board[2] = 2} | #{@board[3] = 3}"
+    puts "#{@board[1]}1 | #{@board[2]}2 | #{@board[3]}3"
     puts "--+---+--"
-    puts "#{@board[4] = 4} | #{@board[5] = 5} | #{@board[6] = 6}"
+    puts "#{@board[4]}4 | #{@board[5]}5 | #{@board[6]}6"
     puts "--+---+--"
-    puts "#{@board[7] = 7} | #{@board[8] = 8} | #{@board[9] = 9}"
+    puts "#{@board[7]}7 | #{@board[8]}8 | #{@board[9]}9"
+  end
+
+  # We check if the value is nil. If not, token can be placed later. #
+  def spot_empty?(cell)
+    @board[cell].nil?
   end
 
   def game_loop
