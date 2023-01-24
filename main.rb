@@ -22,10 +22,21 @@ class Game
   end
 
   def game_loop
+    @current_player = @players.first
     loop do
       print_board
-      return
+      @current_player.place_token
+      @current_player = @players.rotate!
+      return if check_win || check_tie
     end
+  end
+
+  def check_win
+    # check win here
+  end
+
+  def check_tie
+    # check tie here. Check if board full? spot_empty?(1..9), return self if all false.
   end
 end
 
@@ -44,7 +55,6 @@ class HumanPlayer < Player
   def place_token
     # ask for input
     # return new board if place is "empty"?
-    # switch player?
     # if not, error message "Selected spot not valid. Please try again"
   end
 end
