@@ -1,6 +1,8 @@
 line = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
 # begin Game
 class Game
+  attr_accessor :board
+
   # include GameLogic
   def initialize(player_one, player_two)
     @board = Array.new(10)
@@ -24,9 +26,9 @@ class Game
   def game_loop
     @current_player = @players.first
     loop do
-      @current_player.place_token
       print_board
-      @current_player = @players.rotate!
+      @current_player.place_token
+      @current_player = @players.rotate
       return if check_win || check_tie
     end
   end
@@ -50,12 +52,22 @@ class Player
   attr_reader :token
 end
 
-# this class lets player choose token spot, updates board, then switches player? 
+# this class lets player choose token spot, updates board, then switches player?
 class HumanPlayer < Player
   def place_token
-    # ask for input
-    # return new board if place is "empty"?
-    # if not, error message "Selected spot not valid. Please try again"
+    loop do
+      print "Choose a valid position(1-9) to place your #{token}:"
+      chosen_spot = gets.to_i
+      unless @game.spot_empty?(chosen_spot)
+        puts "Choice is not a valid position. Please try again."
+        next
+      end
+      @game.board[chosen_spot] = @token
+      break
+    end
+    # DONE ask for input DONE
+    # DONE-ish return new board if place is "empty"? DONE-ish
+    # DONE if not, error message "Selected spot not valid. Please try again" DONE
   end
 end
 
