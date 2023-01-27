@@ -11,11 +11,10 @@ class Game
 
   # Here, we assign no values, to compare later. #
   def print_board
-    puts "#{@board[1]}1 | #{@board[2]}2 | #{@board[3]}3"
-    puts "--+---+--"
-    puts "#{@board[4]}4 | #{@board[5]}5 | #{@board[6]}6"
-    puts "--+---+--"
-    puts "#{@board[7]}7 | #{@board[8]}8 | #{@board[9]}9"
+    (1..9).each_slice(3) do |row|
+      puts row.map { |cell| @board[cell] ? @board[cell] : cell }.join(" | ")
+      puts  "--+---+--"
+    end
   end
 
   # We check if the value is nil. If not, token can be placed later. #
@@ -28,7 +27,7 @@ class Game
     loop do
       print_board
       @current_player.place_token
-      @current_player = @players.rotate
+      @current_player = @players.rotate!.first
       return if check_win || check_tie
     end
   end
@@ -58,7 +57,7 @@ class HumanPlayer < Player
     loop do
       print "Choose a valid position(1-9) to place your #{token}:"
       chosen_spot = gets.to_i
-      unless @game.spot_empty?(chosen_spot)
+      unless @game.spot_empty?(chosen_spot) && (1..9).include?(chosen_spot)
         puts "Choice is not a valid position. Please try again."
         next
       end
