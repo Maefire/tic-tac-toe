@@ -1,4 +1,5 @@
-# begin Game
+# Game takes place mainly here. Class includes board updates,
+# game end checks, and instantiates Player Class
 class Game
   attr_accessor :board
 
@@ -19,7 +20,6 @@ class Game
     end
   end
 
-  # We check if the value is nil. If not, token can be placed later. #
   def spot_empty?(cell)
     @board[cell].nil?
   end
@@ -29,8 +29,14 @@ class Game
     loop do
       print_board
       @current_player.place_token
-      return puts "#{@current_player.name} wins!" if check_win
-
+      if check_win
+        print_board
+        return puts "#{@current_player.name} outwitted their opponent!"
+      end
+      if check_tie
+        print_board
+        return puts 'Both opponents played perfectly, resulting in a tie.'
+      end
       @current_player = @players.rotate!.first
     end
   end
@@ -48,7 +54,7 @@ class Game
   end
 end
 
-# this gives players the X or O tokens, and access to the game class,
+# This defines what a player in the game is and what they "own". 
 class Player
   def initialize(game_class, token, name)
     @game = game_class
@@ -58,7 +64,7 @@ class Player
   attr_reader :token, :name
 end
 
-# this class lets player choose token spot, updates board, then switches player?
+# This allows a human player to actually place their token in the Game Class.
 class HumanPlayer < Player
   def place_token
     loop do
@@ -74,7 +80,5 @@ class HumanPlayer < Player
   end
 end
 
-# Do I need multiple human classes?
 test = Game.new(HumanPlayer, HumanPlayer)
 test.game_loop
-puts 'done'
