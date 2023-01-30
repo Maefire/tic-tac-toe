@@ -43,12 +43,12 @@ class Game
   end
 
   def check_tie
-    # check tie here. Check if board full? spot_empty?(1..9), return self if all false.
+    # if no spots == nil, return true, else false
+    true unless @board[1..9].include?(nil)
   end
 end
 
 # this gives players the X or O tokens, and access to the game class,
-# due to above "self" argument
 class Player
   def initialize(game_class, token, name)
     @game = game_class
@@ -71,9 +71,6 @@ class HumanPlayer < Player
       @game.board[chosen_spot] = @token
       break
     end
-    # DONE ask for input DONE
-    # DONE-ish return new board if place is "empty"? DONE-ish
-    # DONE if not, error message "Selected spot not valid. Please try again" DONE
   end
 end
 
