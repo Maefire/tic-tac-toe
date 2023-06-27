@@ -7,6 +7,9 @@ describe Game do
     # Initializing instance variables. Nothing to see here.
   end
 
+  describe "print_board" do
+    # puts statement
+  end
   describe "#game_loop" do
     # public scripting method. No testing needed. Methods inside should be tested
   end
