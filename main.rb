@@ -1,6 +1,6 @@
-require_relative "lib/game"
+require_relative "lib/tic_tac_toe_game"
 require_relative "lib/player"
 require_relative "lib/human_player"
 
-test = Game.new(HumanPlayer, HumanPlayer)
+test = TicTacToeGame.new(HumanPlayer, HumanPlayer)
 test.game_loop
