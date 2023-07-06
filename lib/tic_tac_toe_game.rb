@@ -1,5 +1,5 @@
-require_relative "./player"
-require_relative "./human_player"
+require_relative "player"
+require_relative "human_player"
 
 class TicTacToeGame
   attr_accessor :board, :current_player
@@ -8,8 +8,7 @@ class TicTacToeGame
   # include GameLogic
   def initialize(player_one, player_two)
     @board = Array.new(10)
-    @players = [player_one.new(self, "X"),
-      player_two.new(self, "O")]
+    @players = [player_one, player_two]
     @line = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9],
       [1, 5, 9], [3, 5, 7]]
     @current_player = @players.first
@@ -27,14 +26,14 @@ class TicTacToeGame
     loop do
       system("clear") || system("clr")
       print_board
-      current_player.place_token
+      current_player.place_token(self)
       if check_win
         print_board
         return puts "#{current_player.name} outwitted their opponent!"
       end
       if check_tie
         print_board
-        return puts "Both opponents played perfectly, resulting in a tie."
+        return puts "You both played perfectly, resulting in a tie."
       end
       @current_player = @players.rotate!.first
     end
