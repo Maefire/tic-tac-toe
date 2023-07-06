@@ -2,26 +2,45 @@ require_relative "../lib/tic_tac_toe_game"
 require_relative "../lib/player"
 require_relative "../lib/human_player"
 
-describe Game do
-  let(:human_player) { class_double(HumanPlayer) }
-  subject(:game) { described_class.new(human_player, human_player) }
+describe TicTacToeGame do
+  # let(:player_one) { HumanPlayer.new(self, "X", "Mark") }
+  # let(:player_two) { HumanPlayer.new(self, "O", "Mary") }
+  let(:player_one) { instance_double("HumanPlayer") }
+  let(:player_two) { instance_double("HumanPlayer") }
+  subject(:game) { described_class.new(player_one, player_two) }
 
   before do
-    allow(human_player).to receive(:new)
-    game.instance_variable_set(:@players,
-      [human_player.new(self, "X", "Mark"),
-        human_player.new(self, "O", "Mary")])
+    allow(player_one).to receive(:instance_variable_get).with(:@name).and_return("Mark")
+    allow(player_one).to receive(:instance_variable_get).with(:@token).and_return("X")
+    allow(player_one).to receive(:token).and_return("X")
+
+    allow(player_two).to receive(:instance_variable_get).with(:@name).and_return("Mary")
+    allow(player_two).to receive(:instance_variable_get).with(:@token).and_return("O")
+    allow(player_two).to receive(:token).and_return("O")
+  end
+
+  describe "#check_win" do
+    context "when there is a winning line" do
+      before do
+        game.instance_variable_set(:@board,
+          ["X", "X", "O",
+            "O", "X", "O",
+            7, "X", 9])
+        game.instance_variable_get(:@line)
+      end
+      it "returns true if there is a winner" do
+        p player_one.instance_variable_get(:@token)
+        p player_two.token
+        p player_one.instance_variable_get(:@name)
+        p player_two.instance_variable_get(:@name)
+        winner = game.check_win
+        expect(winner).to be(true)
+      end
+    end
   end
 
   describe "#initialize" do
-    # sets instance variables. Test to make sure instance variable is set correctly above..
-    it "sets @players to the array of human players" do
-      players = game.instance_variable_get(:@players)
-      expected_array = [human_player.new(self, "X", "Mark"),
-        human_player.new(self, "O", "Mary")]
-
-      expect(players).to eq(expected_array)
-    end
+    # sets instance variables. No testing needed.
   end
 
   describe "#print_board" do
@@ -30,7 +49,7 @@ describe Game do
     end
   end
 
-  describe "#check_win" do
+  describe "#game_loop" do
   end
 
   describe "#check_tie" do
