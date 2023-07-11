@@ -6,8 +6,8 @@ class TicTacToeGame
   attr_reader :line
 
   # include GameLogic
-  def initialize(player_one, player_two)
-    @board = Array.new(10)
+  def initialize(player_one, player_two, board = Array.new(10))
+    @board = board
     @players = [player_one, player_two]
     @line = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9],
       [1, 5, 9], [3, 5, 7]]
@@ -27,28 +27,30 @@ class TicTacToeGame
       system("clear") || system("clr")
       print_board
       current_player.place_token(self)
-      if check_win
-        print_board
-        return puts "#{current_player.name} outwitted their opponent!"
-      end
-      if check_tie
-        print_board
-        return puts "You both played perfectly, resulting in a tie."
-      end
+      break if game_over?
       @current_player = @players.rotate!.first
     end
   end
 
-  def check_win
+  def game_over?
+    system("clear") || system("clr")
+    print_board
+    return true if tie? || win?
+    false
+  end
+
+  def win?
+    puts "#{current_player.name} outwitted their opponent!"
     line.each do |winning_line|
       return true if winning_line.all? { |cell| board[cell] == current_player.token }
     end
     false
   end
 
-  def check_tie
-    # if no spots == nil, return true, else false
-    true unless @board[1..9].include?(nil)
+  def tie?
+    return false if @board[1..9].include?(nil)
+    puts "You both played perfectly, resulting in a tie."
+    true
   end
 
   def spot_empty?(cell)
