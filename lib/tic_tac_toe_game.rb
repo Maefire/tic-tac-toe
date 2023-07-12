@@ -6,12 +6,13 @@ class TicTacToeGame
   attr_reader :line
 
   # include GameLogic
-  def initialize(player_one, player_two, board = Array.new(10))
+  def initialize(player_one, player_two, board = Array.new(10), game_end = false)
     @board = board
     @players = [player_one, player_two]
     @line = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9],
       [1, 5, 9], [3, 5, 7]]
     @current_player = @players.first
+    @game_end = game_end
   end
 
   # Here, we assign no values, to compare later. #
@@ -24,15 +25,14 @@ class TicTacToeGame
   end
 
   def game_loop
-    result = game_over?
     loop do
       print_board
       current_player.place_token(self)
-      result = game_over?
-      break if result
+      @game_end = game_over?
+      break if @game_end
       @current_player = @players.rotate!.first
     end
-    handle_game_result(result)
+    handle_game_result(@game_end)
   end
 
   def game_over?
