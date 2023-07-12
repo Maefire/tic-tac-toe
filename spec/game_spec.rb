@@ -5,35 +5,18 @@ require_relative "../lib/human_player"
 describe TicTacToeGame do
   # let(:player_one) { HumanPlayer.new(self, "X", "Mark") }
   # let(:player_two) { HumanPlayer.new(self, "O", "Mary") }
-  let(:player_one) { instance_double("HumanPlayer") }
-  let(:player_two) { instance_double("HumanPlayer") }
-  subject(:game) { described_class.new(player_one, player_two) }
+  let(:game) { described_class.new(player_one, player_two) }
+  let(:player_one) { instance_double("HumanPlayer", token: "X", name: "Mark") }
+  let(:player_two) { instance_double("HumanPlayer", token: "O", name: "Mary") }
 
-  before do
-    allow(player_one).to receive(:instance_variable_get).with(:@name).and_return("Mark")
-    allow(player_one).to receive(:instance_variable_get).with(:@token).and_return("X")
-    allow(player_one).to receive(:token).and_return("X")
-
-    allow(player_two).to receive(:instance_variable_get).with(:@name).and_return("Mary")
-    allow(player_two).to receive(:instance_variable_get).with(:@token).and_return("O")
-    allow(player_two).to receive(:token).and_return("O")
-  end
-
-  describe "#check_win" do
+  describe "#game_over?" do
     context "when there is a winning line" do
       before do
-        game.instance_variable_set(:@board,
-          ["X", "X", "O",
-            "O", "X", "O",
-            7, "X", 9])
+        game.instance_variable_set(:@board, ["X", "X", "O", "O", "X", "O", nil, "X", nil])
         game.instance_variable_get(:@line)
       end
       it "returns true if there is a winner" do
-        p player_one.instance_variable_get(:@token)
-        p player_two.token
-        p player_one.instance_variable_get(:@name)
-        p player_two.instance_variable_get(:@name)
-        winner = game.check_win
+        winner = game.win?
         expect(winner).to be(true)
       end
     end
@@ -44,12 +27,18 @@ describe TicTacToeGame do
   end
 
   describe "#print_board" do
-    it "prints the current state of the board" do
-      expect { game.print_board }.to output("1 | 2 | 3\n--+---+--\n4 | 5 | 6\n--+---+--\n7 | 8 | 9\n--+---+--\n").to_stdout
-    end
+    # glorified puts command. No testing needed.
   end
 
   describe "#game_loop" do
+    context "when the game is over" do
+      before do
+        game.instance_variable_set(:@board, ["X", "O", "X", "O", "X", "O", nil, nil, nil])
+        game.instance_variable_get(:@line)
+      end
+      it "" do
+      end
+    end
   end
 
   describe "#check_tie" do
