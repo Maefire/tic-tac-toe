@@ -51,6 +51,7 @@ class TicTacToeGame
 
   def tie?
     return true unless @board[1..9].include?(nil)
+
     false
   end
 
