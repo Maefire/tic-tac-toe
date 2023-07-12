@@ -35,8 +35,7 @@ class TicTacToeGame
   def game_over?
     system("clear") || system("clr")
     print_board
-    return true if tie? || win?
-    false
+    tie? || win?
   end
 
   def win?
