@@ -13,11 +13,19 @@ describe TicTacToeGame do
     context "when there is a winning line" do
       before do
         game.instance_variable_set(:@board, ["X", "X", "O", "O", "X", "O", nil, "X", nil])
-        game.instance_variable_get(:@line)
       end
       it "returns true if there is a winner" do
-        winner = game.win?
-        expect(winner).to be(true)
+        winner = game.game_over?
+        expect(winner).to eql("win")
+      end
+    end
+    context "when there is a tie" do
+      before do
+        game.instance_variable_set(:@board, ["X", "O", "X", "X", "O", "X", "O", "X", "O"])
+      end
+      it "returns true if there is a tie" do
+        winner = game.game_over?
+        expect(winner).to eql("tie")
       end
     end
   end
@@ -33,15 +41,18 @@ describe TicTacToeGame do
   describe "#game_loop" do
     context "when the game is over" do
       before do
-        game.instance_variable_set(:@board, ["X", "O", "X", "O", "X", "O", nil, nil, nil])
-        game.instance_variable_get(:@line)
+        allow(game).to receive(:print_board)
+        allow(game).to receive(:game_over?).and_return("win")
+        allow(game).to receive(:handle_game_result)
+        allow(player_one).to receive(:place_token)
+        allow(player_two).to receive(:place_token)
       end
-      it "" do
+      it "breaks the loop when game ends" do
+        expect(game).to receive(:print_board).once
+        expect(game).to receive(:handle_game_result).with("win")
+        game.game_loop
       end
     end
-  end
-
-  describe "#check_tie" do
   end
 
   describe "#spot_empty?" do
