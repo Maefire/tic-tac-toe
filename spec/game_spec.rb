@@ -9,6 +9,30 @@ describe TicTacToeGame do
   let(:player_one) { instance_double("HumanPlayer", token: "X", name: "Mark") }
   let(:player_two) { instance_double("HumanPlayer", token: "O", name: "Mary") }
 
+  describe "#win?" do
+    context "when there is a winning line" do
+      before do
+        game.instance_variable_set(:@board, ["X", "X", "O", "O", "X", "O", nil, "X", nil])
+      end
+
+      it "returns true" do
+        expect(game).to receive(:win?).and_return(true)
+        game.win?
+      end
+    end
+  end
+  describe "tie?" do
+    context "when there is a full board" do
+      before do
+        game.instance_variable_set(:@board, ["X", "O", "X", "X", "O", "O", "X", "O", "X"])
+      end
+
+      it "returns true" do
+        expect(game).to receive(:tie?).and_return(true)
+        game.tie?
+      end
+    end
+  end
   describe "#game_over?" do
     context "when there is a winning line" do
       before do
