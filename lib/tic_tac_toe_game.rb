@@ -36,8 +36,8 @@ class TicTacToeGame
   end
 
   def game_over?
-    return "tie" if tie?
     return "win" if win?
+    return "tie" if tie?
 
     false
   end
