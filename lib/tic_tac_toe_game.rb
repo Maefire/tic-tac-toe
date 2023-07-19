@@ -50,6 +50,7 @@ class TicTacToeGame
   end
 
   def tie?
+    return false if win?
     return true unless @board[1..9].include?(nil)
 
     false
