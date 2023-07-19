@@ -21,10 +21,15 @@ describe TicTacToeGame do
       end
     end
   end
+
   describe "tie?" do
     context "when there is a full board" do
       before do
-        game.instance_variable_set(:@board, ["X", "O", "X", "X", "O", "O", "X", "O", "X"])
+        game.instance_variable_set(:@board, [
+          "X", "O", "X",
+          "X", "O", "O",
+          "X", "X", "X"
+        ])
       end
 
       it "returns true" do
@@ -38,18 +43,21 @@ describe TicTacToeGame do
       before do
         game.instance_variable_set(:@board, ["X", "X", "O", "O", "X", "O", nil, "X", nil])
       end
+
       it "returns true if there is a winner" do
         winner = game.game_over?
         expect(winner).to eql("win")
       end
     end
+
     context "when there is a tie" do
       before do
         game.instance_variable_set(:@board, ["X", "O", "X", "X", "O", "X", "O", "X", "O"])
       end
-      it "returns true if there is a tie" do
-        winner = game.game_over?
-        expect(winner).to eql("tie")
+
+      it "returns tie" do
+        tie = game.game_over?
+        expect(tie).to eql("tie")
       end
     end
   end
