@@ -43,10 +43,9 @@ class TicTacToeGame
   end
 
   def win?
-    line.each do |winning_line|
-      return true if winning_line.all? { |cell| board[cell] == current_player.token }
+    line.any? do |winning_line|
+      winning_line.all? { |cell| board[cell] == current_player.token }
     end
-    false
   end
 
   def tie?

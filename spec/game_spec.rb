@@ -12,52 +12,50 @@ describe TicTacToeGame do
   describe "#win?" do
     context "when there is a winning line" do
       before do
-        game.instance_variable_set(:@board, ["X", "X", "O", "O", "X", "O", nil, "X", nil])
+        game.instance_variable_set(:@board, [nil, "X", "X", "O", "O", "X", "O", nil, "X", nil])
       end
 
       it "returns true" do
-        expect(game).to receive(:win?).and_return(true)
-        game.win?
+        expect(game.win?).to eq(true)
       end
     end
   end
 
   describe "tie?" do
-    context "when there is a full board" do
+    context "when there is a full board and no win" do
       before do
-        game.instance_variable_set(:@board, [
-          "X", "O", "X",
-          "X", "O", "O",
-          "X", "X", "X"
-        ])
+        game.instance_variable_set(:@board, [nil, "X", "O", "X", "X", "O", "O", "O", "X", "X"])
       end
 
-      it "returns true" do
-        expect(game).to receive(:tie?).and_return(true)
-        game.tie?
+      it "returns true for a tie" do
+        expect(game.tie?).to eq(true)
+      end
+
+      it "returns false for a win" do
+        expect(game.win?).to eq(false)
       end
     end
   end
   describe "#game_over?" do
     context "when there is a winning line" do
       before do
-        game.instance_variable_set(:@board, ["X", "X", "O", "O", "X", "O", nil, "X", nil])
+        game.instance_variable_set(:@board, [nil, "X", "X", "O", "O", "X", "O", nil, "X", nil])
       end
 
       it "returns true if there is a winner" do
         winner = game.game_over?
-        expect(winner).to eql("win")
+        expect(winner).to eq("win")
       end
     end
 
     context "when there is a tie" do
       before do
-        game.instance_variable_set(:@board, ["X", "O", "X", "X", "O", "X", "O", "X", "O"])
+        game.instance_variable_set(:@board, [nil, "X", "O", "X", "X", "O", "X", "O", "X", "O"])
       end
 
       it "returns tie" do
         tie = game.game_over?
-        expect(tie).to eql("tie")
+        expect(tie).to eq("tie")
       end
     end
   end
@@ -79,6 +77,7 @@ describe TicTacToeGame do
         allow(player_one).to receive(:place_token)
         allow(player_two).to receive(:place_token)
       end
+
       it "breaks the loop when game ends" do
         expect(game).to receive(:print_board).once
         expect(game).to receive(:handle_game_result).with("win")
@@ -88,8 +87,15 @@ describe TicTacToeGame do
   end
 
   describe "#spot_empty?" do
-  end
+    context "when the spot has a nil value" do
+      before do
+        game.instance_variable_set(:@board, [nil, "X", "X", "O", "O", "X", "O", nil, "X", nil])
+      end
 
-  describe "#get_name" do
+      it "returns true" do
+        position_seven = 7
+        expect(game.spot_empty?(position_seven)).to eql(true)
+      end
+    end
   end
 end
