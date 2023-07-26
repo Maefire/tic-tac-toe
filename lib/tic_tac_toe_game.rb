@@ -36,8 +36,8 @@ class TicTacToeGame
   end
 
   def game_over?
-    return "win" if win?
-    return "tie" if tie?
+    return true if win?
+    return true if tie?
 
     false
   end
@@ -61,10 +61,10 @@ class TicTacToeGame
 
   def handle_game_result(result)
     case result
-    when "win"
+    when win?
       print_board
       puts "#{current_player.name} outwitted their opponent!"
-    when "tie"
+    when tie?
       print_board
       puts "You both played perfectly, resulting in a tie."
     end
