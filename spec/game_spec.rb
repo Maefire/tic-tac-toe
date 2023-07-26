@@ -18,10 +18,13 @@ describe TicTacToeGame do
       it "returns true" do
         expect(game.win?).to eq(true)
       end
+      it "does not return false" do
+        expect(game.win?).not_to eq(false)
+      end
     end
   end
 
-  describe "tie?" do
+  describe "#tie?" do
     context "when there is a full board and no win" do
       before do
         game.instance_variable_set(:@board, [nil, "X", "O", "X", "X", "O", "O", "O", "X", "X"])
@@ -44,7 +47,7 @@ describe TicTacToeGame do
 
       it "returns true if there is a winner" do
         winner = game.game_over?
-        expect(winner).to eq("win")
+        expect(winner).to eq(true)
       end
     end
 
@@ -53,9 +56,9 @@ describe TicTacToeGame do
         game.instance_variable_set(:@board, [nil, "X", "O", "X", "X", "O", "X", "O", "X", "O"])
       end
 
-      it "returns tie" do
+      it "returns true" do
         tie = game.game_over?
-        expect(tie).to eq("tie")
+        expect(tie).to eq(true)
       end
     end
   end
@@ -72,14 +75,14 @@ describe TicTacToeGame do
     context "when the game is over" do
       before do
         allow(game).to receive(:print_board)
-        allow(game).to receive(:game_over?).and_return("win")
+        allow(game).to receive(:game_over?).and_return(false, false, "win")
         allow(game).to receive(:handle_game_result)
         allow(player_one).to receive(:place_token)
         allow(player_two).to receive(:place_token)
       end
 
       it "breaks the loop when game ends" do
-        expect(game).to receive(:print_board).once
+        expect(game).to receive(:print_board).exactly(3).times
         expect(game).to receive(:handle_game_result).with("win")
         game.game_loop
       end
@@ -95,6 +98,10 @@ describe TicTacToeGame do
       it "returns true" do
         position_seven = 7
         expect(game.spot_empty?(position_seven)).to eql(true)
+      end
+      it "does not return false" do
+        position_seven = 7
+        expect(game.spot_empty?(position_seven)).not_to eql(false)
       end
     end
   end
